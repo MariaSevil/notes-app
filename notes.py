@@ -56,6 +56,29 @@ def edit_note():
     else:
         print("Заметка с данным заголовком не найдена.")
 
+def delete_note():
+    read_notes()
+    title_to_delete = input("Введите заголовок заметки для удаления: ")
+    remaining_notes = []
+    deleted = False
+    with open('notes.json', 'r') as file:
+        for line in file:
+            note = json.loads(line.strip())
+            if note['title'] != title_to_delete:
+                remaining_notes.append(note)
+            else:
+                deleted = True
+    
+    with open('notes.json', 'w') as file:
+        for note in remaining_notes:
+            json.dump(note, file)
+            file.write("\n")
+
+    if deleted:
+        print("Заметка удалена.")
+    else:
+        print("Заметка с данным заголовком не найдена.")
+
 def main():
     command = input("Введите команду: ")
     
@@ -65,6 +88,8 @@ def main():
         read_notes()
     elif command == 'edit':
         edit_note()
+    elif command == 'delete':
+        delete_note()   
     else:
         print(f"Неизвестная команда: {command}")
 
