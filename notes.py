@@ -79,23 +79,60 @@ def delete_note():
     else:
         print("Заметка с данным заголовком не найдена.")
 
+def filter_notes_by_date():
+    given_date = input("Введите дату в формате YYYY-MM-DD для выборки заметок: ")
+    try:
+        with open('notes.json', 'r') as file:
+            for line in file:
+                note = json.loads(line.strip())
+                if note['date'].startswith(given_date):
+                    print(note['date'], note['title'])
+
+    except FileNotFoundError:
+        print("Заметок пока нет.")
+
+def display_note():
+    title_to_display = input("Введите заголовок заметки для вывода: ")
+    try:
+        with open('notes.json', 'r') as file:
+            for line in file:
+                note = json.loads(line.strip())
+                if note['title'] == title_to_display:
+                    print("ID:", note['id'])
+                    print("Дата:", note['date'])
+                    print("Заголовок:", note['title'])
+                    print("Сообщение:", note['message'])
+                    break
+            else:
+                print("Заметка с данным заголовком не найдена.")
+    except FileNotFoundError:
+        print("Заметок пока нет.")
+
+
 def main():
-    command = input("Введите команду: ")
-    
-    if command == 'add':
-        create_note()
-    elif command == 'list':
-        read_notes()
-    elif command == 'edit':
-        edit_note()
-    elif command == 'delete':
-        delete_note()   
-    else:
-        print(f"Неизвестная команда: {command}")
+    while True:
+        command = input("Введите команду (для выхода введите 'exit'): ")
+        
+        if command == 'add':
+            create_note()
+        elif command == 'list':
+            read_notes()
+        elif command == 'edit':
+            edit_note()
+        elif command == 'delete':
+            delete_note()  
+        elif command == 'filter':
+            filter_notes_by_date()
+
+        elif command == 'display':
+            display_note()
+        elif command == 'exit':
+            break   
+        else:
+            print(f"Неизвестная команда: {command}")
 
 if __name__ == "__main__":
     main()
-
 
 
 
