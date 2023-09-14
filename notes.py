@@ -13,6 +13,8 @@ def main():
     
     if command == 'add':
         create_note()
+    elif command == 'list':
+        read_notes()
     else:
         print(f"Неизвестная команда: {command}")
 
@@ -37,6 +39,14 @@ def create_note():
     save_note_to_file(title, msg)
     print("Заметка успешно сохранена")
  
+def read_notes():
+    try:
+        with open('notes.json', 'r') as file:
+            for line in file:
+                note = json.loads(line.strip())
+                print(note['date'], note['title'])
+    except FileNotFoundError:
+        print("Заметок пока нет.")
 
 
 
