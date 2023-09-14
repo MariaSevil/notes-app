@@ -1,11 +1,6 @@
+import json
+import datetime
 
-
-def main():
-    command = input("Введите команду: ")
-    print(f"Вы ввели команду: {command}")
-
-if __name__ == "__main__":
-    main()
 
 def create_note():
     title = input("Введите заголовок заметки: ")
@@ -23,3 +18,42 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def save_note_to_file(title, msg):
+    date_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    note = {
+        'title': title,
+        'message': msg,
+        'date': date_str
+    }
+    with open('notes.json', 'a') as file:
+        json.dump(note, file)
+        file.write("\n")
+
+def create_note():
+    title = input("Введите заголовок заметки: ")
+    msg = input("Введите тело заметки: ")
+    save_note_to_file(title, msg)
+    print("Заметка успешно сохранена")
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
